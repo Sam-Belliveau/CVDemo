@@ -14,11 +14,11 @@ public class Limelight extends Entity {
     public static final double VIEW_DISTANCE = 8;
     public static final double VIEW_ANGLE = 45;
     
-    private Robot2 mRobot;
+    private Robot mRobot;
     private Entity[] mTargets;
     private boolean mTurnedOn;
 
-    public Limelight(Robot2 robot, Entity... target) {
+    public Limelight(Robot robot, Entity... target) {
         super(robot.getCentroid(), Angle.kZero, new Vector2D[] {new Vector2D(0,0)});
 
         mRobot = robot;
@@ -41,19 +41,19 @@ public class Limelight extends Entity {
         if (visible.size() == 0)
             return null;
 
-        double minAngle = Double.MAX_VALUE;
+        double minDistance = Double.MAX_VALUE;
+        int index = 1;
 
         for (int i : visible) {
-            Vector2D target = mTargets[i].getPosition().sub(mRobot.getPosition());
-            Angle angle = target.getAngle().sub(mRobot.getAngle());
-            double deg = angle.toDegrees();
-
-            if (deg < minAngle) {
-                minAngle = deg;
+            double mag = mTargets[i].getPosition().sub(mRobot.getPosition()).distance();
+            if (mag < minDistance) {
+                minDistance = mag;
+                index = i;
             }
         }
-
-        return Angle.fromDegrees(minAngle);
+        Vector2D target = mTargets[index].getPosition().sub(mRobot.getPosition());
+        Angle angle = target.getAngle().sub(mRobot.getAngle());
+        return angle;
     }
 
     public ArrayList<Integer> getVisible() {

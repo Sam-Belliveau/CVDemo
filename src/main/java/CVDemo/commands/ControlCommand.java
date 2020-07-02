@@ -1,6 +1,6 @@
 package CVDemo.commands;
 
-import CVDemo.Robot2;
+import CVDemo.Robot;
 import CVDemo.WorldDisplay;
 
 /**
@@ -8,10 +8,10 @@ import CVDemo.WorldDisplay;
  */
 public class ControlCommand {
     
-    private final Robot2 robot;
+    private final Robot robot;
     private final WorldDisplay world;
 
-    public ControlCommand(Robot2 r, WorldDisplay world) {
+    public ControlCommand(Robot r, WorldDisplay world) {
         robot = r;
         this.world = world;
     }

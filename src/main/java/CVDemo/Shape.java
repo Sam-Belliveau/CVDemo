@@ -9,15 +9,10 @@ import com.stuypulse.stuylib.math.Vector2D;
 import CVDemo.entity.Entity;
 
 
-public class Target2 extends Entity {
+public class Shape extends Entity {
    
-    public Target2(Vector2D pos, Angle angle) {
-        super(pos, angle, new Vector2D[] {
-            new Vector2D(8,4),
-            new Vector2D(8,6),
-            new Vector2D(7,6),
-            new Vector2D(7,4)
-        });
+    public Shape(Vector2D pos, Angle angle, Vector2D[] mesh) {
+        super(pos, angle, mesh);
     }
 
     public void draw(Graphics g) {

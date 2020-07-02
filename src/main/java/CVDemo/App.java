@@ -3,6 +3,8 @@
  */
 package CVDemo;
 
+import java.util.Random;
+
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
@@ -12,15 +14,24 @@ import CVDemo.entity.Entity;
 
 public class App {
     
+    private static final Vector2D[] GOAL_MESH = {
+        new Vector2D(0.5,0.5),
+        new Vector2D(0.5, -0.5),
+        new Vector2D(0, -1.5),
+        new Vector2D(0,1.5)
+    };
+    
+    private static final Random random = new Random();
+
     public static void main(String[] args) {
         WorldDisplay world = new WorldDisplay();
-        Robot2 robot = new Robot2(0.5);
+        Robot robot = new Robot(0.5);
 
-        Entity[] targets = new Entity[] {
-            new Target2(new Vector2D(7.5, 5), Angle.kZero),
-            new Target2(new Vector2D(2.5, 5), Angle.fromDegrees(45)),
-            new Target2(new Vector2D(5, -5), Angle.fromDegrees(-45))
-        };
+        Entity[] targets = new Entity[5];
+
+        for (int i = 0; i < targets.length;++i) {
+            targets[i] = new Shape(new Vector2D(7, (i * 5)-10), Angle.kZero, GOAL_MESH);
+        }
 
         Limelight limelight = new Limelight(robot, targets);
 
@@ -37,10 +48,12 @@ public class App {
 
             if(world.getKey("space")) {
                 limelight.turnOn();
-                if (world.getKey("q") && limelight.isVisible()) 
+                if (world.getKey("q") && limelight.isVisible()) {
                     aligner.execute();
-                else
+                }
+                else {
                     drive.execute();
+                }
             } else {
                 limelight.turnOff();
                 drive.execute();

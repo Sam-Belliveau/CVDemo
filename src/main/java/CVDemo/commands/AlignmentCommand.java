@@ -3,19 +3,17 @@ package CVDemo.commands;
 import com.stuypulse.stuylib.math.Angle;
 
 import CVDemo.Limelight;
-import CVDemo.Robot2;
+import CVDemo.Robot;
 
 /**
  * This is the part we are going to edit
  */
 public class AlignmentCommand {
     
-    static int i = 0;
-
-    public Robot2 robot;
+    public Robot robot;
     public Limelight limelight;
 
-    public AlignmentCommand(Robot2 r, Limelight l) {
+    public AlignmentCommand(Robot r, Limelight l) {
         robot = r;
         limelight = l;
     }
@@ -24,6 +22,7 @@ public class AlignmentCommand {
 
         Angle a = limelight.getTargetXAngle();
 
+        // NO ANGLE IS FOUND MEANS FAIL OUT
         if (a == null) {
             return;
         }

@@ -18,36 +18,26 @@ import CVDemo.entity.PhysicalEntity;
  * 
  * This class is super complicated just to simulate the physics of the robot.
  */
-public class Robot2 extends PhysicalEntity {
-    
-    // These values are high because its added incrementally
-    public static final double DRIVE_SPEED = 50;
-    public static final double TURN_SPEED = Math.toRadians(12000);
+public class Robot extends PhysicalEntity {
 
-
-    private final static Vector2D[] ROBOT_MESH = {
-        new Vector2D(-1,1),
-        new Vector2D(1,0.5),
-        new Vector2D(1,-0.5),
-        new Vector2D(-1,-1)
-    };
+    private final static Vector2D[] ROBOT_MESH = { new Vector2D(-1, 1), new Vector2D(1, 0.5), new Vector2D(1, -0.5),
+            new Vector2D(-1, -1) };
 
     private final static Vector2D[] SCALE_ROBOT_MESH(double scale) {
         Vector2D[] out = ROBOT_MESH;
 
-        for (int i = 0; i < out.length;++i) {
+        for (int i = 0; i < out.length; ++i) {
             out[i] = out[i].mul(scale);
         }
 
         return out;
     }
 
-
-    public Robot2() {
-        super(Forces.kDefaults, new Vector2D(0,0), Angle.kZero, ROBOT_MESH);
+    public Robot() {
+        super(Forces.kDefaults, new Vector2D(0, 0), Angle.kZero, ROBOT_MESH);
     }
 
-    public Robot2(double scale) {
+    public Robot(double scale) {
         super(Forces.kDefaults, new Vector2D(0,0), Angle.kZero, SCALE_ROBOT_MESH(scale));
     }
     
