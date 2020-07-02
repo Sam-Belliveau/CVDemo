@@ -35,11 +35,11 @@ public class Limelight extends Entity {
     }
     
 
-    public Angle getTargetXAngle() {
+    public double getTargetXAngle() {
         ArrayList<Integer> visible = getVisible();
 
         if (visible.size() == 0)
-            return null;
+            return 0;
 
         double minDistance = Double.MAX_VALUE;
         int index = 1;
@@ -53,7 +53,7 @@ public class Limelight extends Entity {
         }
         Vector2D target = mTargets[index].getPosition().sub(mRobot.getPosition());
         Angle angle = target.getAngle().sub(mRobot.getAngle());
-        return angle;
+        return angle.toDegrees();
     }
 
     public ArrayList<Integer> getVisible() {

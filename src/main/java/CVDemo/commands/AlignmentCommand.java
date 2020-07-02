@@ -20,14 +20,7 @@ public class AlignmentCommand {
 
     public void execute() {
 
-        Angle a = limelight.getTargetXAngle();
-
-        // NO ANGLE IS FOUND MEANS FAIL OUT
-        if (a == null) {
-            return;
-        }
-
-        double error = a.toDegrees();
+        double error = limelight.getTargetXAngle();
 
         System.out.println(error);
 
