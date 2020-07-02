@@ -23,8 +23,8 @@ public class Robot extends PhysicalEntity {
     private final static Vector2D[] ROBOT_MESH = { new Vector2D(-1, 1), new Vector2D(1, 0.5), new Vector2D(1, -0.5),
             new Vector2D(-1, -1) };
 
-    private final static Vector2D[] SCALE_ROBOT_MESH(double scale) {
-        Vector2D[] out = ROBOT_MESH;
+    private final static Vector2D[] SCALE_ROBOT_MESH(Vector2D[] m, Vector2D scale) {
+        Vector2D[] out = m;
 
         for (int i = 0; i < out.length; ++i) {
             out[i] = out[i].mul(scale);
@@ -38,7 +38,11 @@ public class Robot extends PhysicalEntity {
     }
 
     public Robot(double scale) {
-        super(Forces.kDefaults, new Vector2D(0,0), Angle.kZero, SCALE_ROBOT_MESH(scale));
+        super(Forces.kDefaults, new Vector2D(0,0), Angle.kZero, SCALE_ROBOT_MESH(ROBOT_MESH,new Vector2D(scale, scale)));
+    }
+
+    public Robot(Vector2D[] mesh, Vector2D scale) {
+        super(Forces.kDefaults, new Vector2D(0,0), Angle.kZero, SCALE_ROBOT_MESH(mesh, scale));
     }
     
     public void arcadeDrive(double speed, double angle) {

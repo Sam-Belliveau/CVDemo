@@ -25,7 +25,20 @@ public class App {
 
     public static void main(String[] args) {
         WorldDisplay world = new WorldDisplay();
-        Robot robot = new Robot(0.5);
+        // Robot robot = new Robot(0.5);
+
+        Robot robot = new Robot(new Vector2D[] {
+            new Vector2D(2,0.5),
+            new Vector2D(2.2,0),
+            new Vector2D(2,-0.5),
+            new Vector2D(-0.5,-0.5),
+            new Vector2D(-1,-1),
+            new Vector2D(-1.5, -0.5),
+            new Vector2D(-1,0),
+            new Vector2D(-1.5,0.5),
+            new Vector2D(-1,1),
+            new Vector2D(-0.5,0.5)
+        }, new Vector2D(2, 0.1));
 
         Entity[] targets = new Entity[5];
 
