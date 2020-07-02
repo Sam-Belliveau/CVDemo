@@ -6,41 +6,53 @@ package CVDemo;
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
-public class App {
+import CVDemo.commands.AlignmentCommand;
+import CVDemo.commands.ControlCommand;
+import CVDemo.entity.Entity;
 
+public class App {
+    
     public static void main(String[] args) {
         WorldDisplay world = new WorldDisplay();
-        Robot robot = new Robot(); 
-        Target target = new Target(new Vector2D(5, 0), Angle.kZero);
-        Limelight limelight = new Limelight(robot, target);
-        AlignmentCommand aligner = new AlignmentCommand(robot, limelight);
+        Robot2 robot = new Robot2(0.5);
 
-        world.addDrawable(limelight);
-        world.addDrawable(target);
-        world.addDrawable(robot);
-        
+        Entity[] targets = new Entity[] {
+            new Target2(new Vector2D(7.5, 5), Angle.kZero),
+            new Target2(new Vector2D(2.5, 5), Angle.fromDegrees(45)),
+            new Target2(new Vector2D(5, -5), Angle.fromDegrees(-45))
+        };
+
+        Limelight limelight = new Limelight(robot, targets);
+
+        AlignmentCommand aligner = new AlignmentCommand(robot, limelight);
+        ControlCommand drive = new ControlCommand(robot, world);
+
+        world.addEntity(limelight);
+        world.addEntity(robot);
+        world.addEntity(targets);
+
+        limelight.turnOn();
 
         while(world.isVisible()) {
 
             if(world.getKey("space")) {
                 limelight.turnOn();
-                if(limelight.isVisible()) {
+                if (world.getKey("q") && limelight.isVisible()) 
                     aligner.execute();
-                } else {
-                    world.control(robot);
-                }
+                else
+                    drive.execute();
             } else {
                 limelight.turnOff();
-                world.control(robot);
+                drive.execute();
             }
 
-            robot.step();
-            world.draw(robot);
+            world.step();
+            world.draw();
             world.update();
 
             try {
                 Thread.sleep(2);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException interruptedException) {
                 System.out.println("Thread Sleeping was interrupted!");
                 System.out.println("This literally never happens in the main function!");
                 break;

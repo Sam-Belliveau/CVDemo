@@ -1,24 +1,28 @@
 package CVDemo;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferStrategy;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
 
 import com.stuypulse.stuylib.math.Angle;
 import com.stuypulse.stuylib.math.Vector2D;
 
-public class Limelight implements Drawable{
+import CVDemo.entity.Entity;
+
+public class Limelight extends Entity {
  
     public static final double VIEW_DISTANCE = 8;
     public static final double VIEW_ANGLE = 45;
     
-    private Robot mRobot;
-    private Target mTarget;
+    private Robot2 mRobot;
+    private Entity[] mTargets;
     private boolean mTurnedOn;
 
-    public Limelight(Robot robot, Target target) {
+    public Limelight(Robot2 robot, Entity... target) {
+        super(robot.getCentroid(), Angle.kZero, new Vector2D[] {new Vector2D(0,0)});
+
         mRobot = robot;
-        mTarget = target;
+        mTargets = target;
         mTurnedOn = false;
     }
 
@@ -32,14 +36,43 @@ public class Limelight implements Drawable{
     
 
     public Angle getTargetXAngle() {
-        Vector2D target = mTarget.getPosition().sub(mRobot.getPosition());
-        Angle angle = target.getAngle().sub(mRobot.getAngle());
-        return angle;
+        ArrayList<Integer> visible = getVisible();
+
+        if (visible.size() == 0)
+            return null;
+
+        double minAngle = Double.MAX_VALUE;
+
+        for (int i : visible) {
+            Vector2D target = mTargets[i].getPosition().sub(mRobot.getPosition());
+            Angle angle = target.getAngle().sub(mRobot.getAngle());
+            double deg = angle.toDegrees();
+
+            if (deg < minAngle) {
+                minAngle = deg;
+            }
+        }
+
+        return Angle.fromDegrees(minAngle);
+    }
+
+    public ArrayList<Integer> getVisible() {
+        ArrayList<Integer> indices = new ArrayList<>();
+
+        for (int i = 0; i < mTargets.length;++i) {
+
+            Vector2D target = mTargets[i].getPosition().sub(mRobot.getPosition());
+            if ( (Math.abs(target.getAngle().sub(mRobot.getAngle()).toDegrees()) < VIEW_ANGLE) && (target.distance() < VIEW_DISTANCE)) {
+                indices.add(i);
+            }
+    
+        }
+
+        return indices;
     }
 
     public boolean isVisible() {
-        Vector2D target = mTarget.getPosition().sub(mRobot.getPosition());
-        return (Math.abs(target.getAngle().sub(mRobot.getAngle()).toDegrees()) < VIEW_ANGLE) && (target.distance() < VIEW_DISTANCE);
+        return getVisible().size() != 0;
     }
 
     public void draw(Graphics g) {
@@ -68,18 +101,26 @@ public class Limelight implements Drawable{
     
             g.fillPolygon(x, y, POINTS);
             
-            if(isVisible()) {
-                g.setColor(Color.RED);
-                Vector2D targetCenter = mTarget.getPosition();
-                g.drawLine(
-                    WorldDisplay.WorldToScreenX(robotCenter.x), 
-                    WorldDisplay.WorldToScreenY(robotCenter.y), 
-                    WorldDisplay.WorldToScreenX(targetCenter.x), 
-                    WorldDisplay.WorldToScreenY(targetCenter.y)
-                );
+            ArrayList<Integer> visible = getVisible();
+
+            if(visible.size() != 0) {
+                for (int index : visible) {
+                    g.setColor(Color.RED);
+                    Vector2D targetCenter = mTargets[index].getPosition();
+                    g.drawLine(
+                        WorldDisplay.WorldToScreenX(robotCenter.x), 
+                        WorldDisplay.WorldToScreenY(robotCenter.y), 
+                        WorldDisplay.WorldToScreenX(targetCenter.x), 
+                        WorldDisplay.WorldToScreenY(targetCenter.y)
+                    );
+                }
             }
 
         }
+    }
+
+    @Override
+    public void step() {
     }
 
 }
