@@ -113,6 +113,16 @@ public class Limelight extends Entity {
                         WorldDisplay.WorldToScreenX(targetCenter.x), 
                         WorldDisplay.WorldToScreenY(targetCenter.y)
                     );
+
+
+                    g.setColor(Color.BLUE);
+                    Vector2D visionCenter = robotCenter.add(mRobot.getAngle().getVector().mul(VIEW_DISTANCE));
+                    g.drawLine(
+                        WorldDisplay.WorldToScreenX(robotCenter.x), 
+                        WorldDisplay.WorldToScreenY(robotCenter.y), 
+                        WorldDisplay.WorldToScreenX(visionCenter.x), 
+                        WorldDisplay.WorldToScreenY(visionCenter.y)
+                    );
                 }
             }
 

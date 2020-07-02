@@ -91,7 +91,7 @@ public abstract class PhysicalEntity extends Entity {
 
         // Add input speeds to robot
         mAngleVel += forces.getTurnSpeed() * mInputAngle.get() * dt;
-        mVelocity = mVelocity.add(mAngle.getVector().mul(mInputSpeed.get() * forces.getTurnSpeed() * dt));
+        mVelocity = mVelocity.add(mAngle.getVector().mul(mInputSpeed.get() * forces.getMoveSpeed() * dt));
     }
 
     @Override
