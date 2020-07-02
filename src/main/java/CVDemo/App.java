@@ -27,11 +27,13 @@ public class App {
         WorldDisplay world = new WorldDisplay();
         Robot robot = new Robot(0.5);
 
-        Entity[] targets = new Entity[5];
+        Entity[] targets = new Entity[1];
 
-        for (int i = 0; i < targets.length;++i) {
-            targets[i] = new Shape(new Vector2D(7, (i * 5)-10), Angle.kZero, GOAL_MESH);
-        }
+        // for (int i = 0; i < targets.length;++i) {
+            // targets[i] = new Shape(new Vector2D(7, (i * 5)-10), Angle.kZero, GOAL_MESH);
+        // }
+
+        targets[0] = new Shape(new Vector2D(7, 0), Angle.kZero, GOAL_MESH);
 
         Limelight limelight = new Limelight(robot, targets);
 

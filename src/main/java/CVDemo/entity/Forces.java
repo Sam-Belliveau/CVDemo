@@ -4,13 +4,13 @@ public class Forces {
 
     public static Forces kDefaults = new Forces();
 
-    public static final double TURNING_DRAG = 40;
+    public static final double TURNING_DRAG = 100;
     public static final double FORWARDS_DRAG = 5;
     public static final double SIDEWAYS_DRAG = 100;
     
     // These values are high because its added incrementally
     public static final double MOVE_SPEED = 50;
-    public static final double TURN_SPEED = 200;
+    public static final double TURN_SPEED = 150;
 
     private final double turning;
     private final double forwards;
