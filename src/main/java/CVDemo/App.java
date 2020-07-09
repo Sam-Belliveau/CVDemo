@@ -27,20 +27,16 @@ public class App {
         WorldDisplay world = new WorldDisplay();
         Robot robot = new Robot(0.5);
 
-        Entity[] targets = new Entity[5];
+        Entity target = new Shape(new Vector2D(7, 0), Angle.kZero, GOAL_MESH);
 
-        for (int i = 0; i < targets.length;++i) {
-            targets[i] = new Shape(new Vector2D(7, (i * 5)-10), Angle.kZero, GOAL_MESH);
-        }
-
-        Limelight limelight = new Limelight(robot, targets);
+        Limelight limelight = new Limelight(robot, target);
 
         AlignmentCommand aligner = new AlignmentCommand(robot, limelight);
         ControlCommand drive = new ControlCommand(robot, world);
 
         world.addEntity(limelight);
         world.addEntity(robot);
-        world.addEntity(targets);
+        world.addEntity(target);
 
         limelight.turnOn();
 

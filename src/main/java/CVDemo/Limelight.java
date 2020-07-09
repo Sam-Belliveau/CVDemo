@@ -56,6 +56,24 @@ public class Limelight extends Entity {
         return angle.toDegrees();
     }
 
+
+    public double getTargetDistance() {
+        ArrayList<Integer> visible = getVisible();
+
+        if (visible.size() == 0)
+            return 0;
+
+        double minDistance = Double.MAX_VALUE;
+
+        for (int i : visible) {
+            double mag = mTargets[i].getPosition().sub(mRobot.getPosition()).distance();
+            if (mag < minDistance) {
+                minDistance = mag;
+            }
+        }
+        return minDistance;
+    }
+
     public ArrayList<Integer> getVisible() {
         ArrayList<Integer> indices = new ArrayList<>();
 
