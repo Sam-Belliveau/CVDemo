@@ -28,6 +28,7 @@ public class AlignmentCommand {
      public void execute() { 
         double angle = 0;
         double speed = 0;
+        // controller.update(error); <-- speed it wants to go
         
         if(limelight.isVisible()) {
             double angleError = limelight.getTargetXAngle() - TARGET_ANGLE;
